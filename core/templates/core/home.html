@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% block contenido %}
+
+<div class="contenedor_peliculas">
+    <h2 class="titulo_contenedor_pelicula">Cartelera semanal</h2>
+    {% for p in peliculas %}
+    <div class="pelicula">
+        {% if p.imagen %}
+        <img src="{{ p.imagen.url }}" alt="Caratula 1">
+        {% else %}
+        <img src="{% static 'core/img/caratula1.jpg' %}" alt="">
+        {% endif %}
+        <a href="#">Ver horarios</a>
+    </div>
+    {% endfor %}
+</div>
+<br>
+<div class="contenedor_peliculas">
+        <h2 class="titulo_contenedor_pelicula">PREVENTA / PRÓXIMOS ESTRENOS</h2>
+        <div class="pelicula">
+            <img src="{% static 'core/img/caratula1.jpg' %}" alt="Caratula 1">
+            <a href="#">Ver horarios</a>
+        </div>
+        <div class="pelicula">
+            <img src="{% static 'core/img/caratula2.jpg' %}" alt="Caratula 1">
+            <a href="#">Ver horarios</a>
+        </div>
+        <div class="pelicula">
+            <img src="{% static 'core/img/caratula3.jpg' %}" alt="Caratula 1">
+            <a href="#">Ver horarios</a>
+        </div>
+        <div class="pelicula">
+            <img src="{% static 'core/img/caratula4.jpg' %}" alt="Caratula 1">
+            <a href="#">Ver horarios</a>
+        </div>
+        <div class="pelicula">
+            <img src="{% static 'core/img/caratula5.jpg' %}" alt="Caratula 1">
+            <a href="#">Ver horarios</a>
+        </div>
+        <div class="pelicula">
+            <img src="{% static 'core/img/caratula6.jpg' %}" alt="Caratula 1">
+            <a href="#">Ver horarios</a>
+        </div>
+        <div class="pelicula">
+            <img src="{% static 'core/img/caratula6.jpg' %}" alt="Caratula 1">
+            <a href="#">Ver horarios</a>
+        </div>
+        <div class="pelicula">
+            <img src="{% static 'core/img/caratula6.jpg' %}" alt="Caratula 1">
+            <a href="#">Ver horarios</a>
+        </div>
+    </div>
+        
+{% endblock %}

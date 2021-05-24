@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CineLand</title>
+    {% load pwa %}
+
+    {% progressive_web_app_meta %}
+    
+    {% load static %}
+
+    {% block css %}
+
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- The core Firebase JS SDK is always required and must be listed first 
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>-->
+    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js"></script>
+
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script> window._peq = window._peq || []; window._peq.push(["init"]); </script>
+    <script src="https://clientcdn.pushengage.com/core/c561e5bf-7762-4093-bb0c-9a17bf415147.js" async></script>
+    
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyBMFNTBGqbym8y1-EhA44yq3E3GpgRvgng",
+        authDomain: "cineland-fc1ba.firebaseapp.com",
+        projectId: "cineland-fc1ba",
+        storageBucket: "cineland-fc1ba.appspot.com",
+        messagingSenderId: "578919981495",
+        appId: "1:578919981495:web:7c7318b7c03af518488832"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      
+      let messaging = firebase.messaging();
+
+      //enlazamos servirworker
+      navigator.serviceWorker
+      .register('./serviceworker.js')
+      .then(function(register){
+        
+        messaging.useServiceWorker(register);
+        //solicitamos el permiso para las notificaciones
+        messaging.requestPermission()
+        .then(function(){
+            console.log("el usuario ha aceptado recibir notificaciones")
+            return messaging.getToken();
+        })
+        .then(function(token){
+            console.log(token);
+
+            fetch('guardar-token/', {
+                method:'post',
+                headers:{
+                    'Content-Type':'application/json',
+                    'Accept':'application/json',
+                },
+                body:JSON.stringify({
+                    'token':token
+                })
+            })
+            .then(function(resultado){
+                console.log("Se ha guardado el token")
+            })
+            .catch(function(e){
+                console.log("no se ha podido guardar el token")
+            })
+        })
+        .catch(function(e){
+            console.log("el usuario no ha aceptado")
+        })
+    })
+
+      //programamos la recepcion de las notificaciones push
+      messaging.onMessage(function(payload){
+        console.log("No ha llegado la notificacion")
+        let data = payload;
+        console.log(data);
+
+        let title = payload.notification.title;
+        let options = {
+            body: payload.notification.body,
+            icon: payload.notification.icon
+        }
+        let mensaje = new Notification(title, options)
+      })
+    </script>
+</head>
+<body>
+    <header>
+      
+        <img src="{% static 'core/img/logo.png' %}" alt="logo" class="logo">
+
+        <nav>
+                <ul>
+                        <li>
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'galeria' %}">Galeria</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'nueva_peliculas' %}">Nueva pelicula</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'listado_peliculas' %}">Listado de peliculas</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li>
+                            <a href="#">Usuario: {{ user.username }}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}">Cerrar sesion</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="{% url 'login' %}">Iniciar sesion</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'registro_usuario' %}">Registro usuario</a>
+                        </li>
+                        {% endif %}
+                </ul>   
+        </nav>
+        
+    </header>
+
+    <div id="principal">
+       <br>
+       <div class="container">
+        {% block contenido %}
+        
+        {% endblock %}
+       </div>
+    </div>
+
+    <footer class="hide_on_mobile">
+        <div>
+            <img src="{% static 'core/img/logo.png' %}" alt="logo" class="logo_footer">
+        </div>
+        <div>
+            <h4>Programación</h4>
+            <hr>
+            <ul>
+                <li>Cartelera</li>
+                <li>proximamente</li>
+                <li>Venta anticipada</li>
+            </ul>
+        </div>
+        <div>
+                <h4>Programación</h4>
+                <hr>
+                <ul>
+                    <li>Cartelera</li>
+                    <li>proximamente</li>
+                    <li>Venta anticipada</li>
+                </ul>
+        </div>
+        <div>
+                <h4>Programación</h4>
+                <hr>
+                <ul>
+                    <li>Cartelera</li>
+                    <li>proximamente</li>
+                    <li>Venta anticipada</li>
+                </ul>
+        </div>
+    </footer>
+
+    <!--footer mobile-->
+    <footer class="hide_on_desktop">
+        <img src="{% static 'core/img/logo.png' %}" alt="logo" class="logo_footer_mobile">
+    </footer>
+    {% block javascript %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+    {% endblock %}
+    <script src="js/basico.js"></script>
+</body>
+</html>

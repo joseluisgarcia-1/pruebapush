@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+
+{% block contenido %}
+	<h2>Modificar pelicula</h2>
+<form action="" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	<table>
+		{{ form.as_table }}	
+	</table>
+	<input type="reset" name="Limpiar">
+	<input type="submit" name="Modificar">
+</form>
+
+{{ mensaje }}
+
+{% endblock %}
+

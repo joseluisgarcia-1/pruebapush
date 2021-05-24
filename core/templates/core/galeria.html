@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+
+{% load static %}
+
+{% block css %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+{% endblock %}
+{% block javascript %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script> 
+{% endblock %}
+
+{% block contenido %}
+
+<div class="contenedor_formulario">
+    <div>
+        
+        <div class="galeria">
+
+            <a data-fancybox="gallery" href="{% static 'core/img/caratula1.jpg' %}">
+                <img src="{% static 'core/img/caratula1.jpg' %}" alt="caratula 1">
+            </a>
+
+            <a data-fancybox="gallery" href="{% static 'core/img/caratula2.jpg' %}">
+                <img src="{% static 'core/img/caratula2.jpg' %}" alt="caratula 2">
+            </a>
+            
+            <a data-fancybox="gallery" href="{% static 'core/img/caratula3.jpg' %}">
+                <img src="{% static 'core/img/caratula3.jpg' %}" alt="caratula 3">
+            </a>
+            
+            <a data-fancybox="gallery" href="{% static 'core/img/caratula4.jpg' %}">
+                <img src="{% static 'core/img/caratula4.jpg' %}" alt="caratula 4">
+            </a>
+
+        </div>
+
+    </div>
+   
+</div>
+
+{% endblock %}
